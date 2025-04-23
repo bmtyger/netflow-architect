@@ -1,0 +1,58 @@
+application: YourAppName
+network:
+  cdn:
+    enabled: false
+  dns:
+    create_zone: false
+    domain_name: yourdomain.com
+  firewall:
+    rules:
+    - action: Allow
+      destination: frontend-subnet
+      name: allow-http-frontend
+      ports:
+      - 80
+      protocol: TCP
+      source: Internet
+    - action: Allow
+      destination: frontend-subnet
+      name: allow-https-frontend
+      ports:
+      - 443
+      protocol: TCP
+      source: Internet
+    - action: Allow
+      destination: backend-subnet
+      name: allow-backend-from-frontend
+      ports:
+      - 8080
+      protocol: TCP
+      source: frontend-subnet
+  ip_address_space: 10.0.0.0/16
+  load_balancer:
+    enabled: false
+    health_check_path: /health
+    listeners:
+    - port: 80
+      protocol: HTTP
+    - port: 443
+      protocol: HTTPS
+    type: Application
+  name: your-network-name
+  scalability:
+    auto_scaling:
+      enabled: false
+      max_instances: 10
+      min_instances: 2
+      target_cpu_utilization: 70
+  security:
+    network_segmentation: true
+  subnets:
+  - cidr: 10.0.1.0/24
+    name: frontend-subnet
+    purpose: Frontend
+  - cidr: 10.0.2.0/24
+    name: backend-subnet
+    purpose: Backend
+region: YourPreferredRegiyon
+type: web

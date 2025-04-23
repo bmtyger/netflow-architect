@@ -1,0 +1,4 @@
+application: TestApp
+network:
+  name: test-network
+region: us-east-1
